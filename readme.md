@@ -1,5 +1,7 @@
 Repository showing a bug in the eslint import-x plugin.
 
+**This issue is fixed** It was fixed by `unrs-resolver@1.7.12` if you have an existing project with a yarn.lock file you can upgrade the version of unrs-resolver used by eslint-plugin-import-x by running `yarn up -R unrs-resolver`. You can also add a `resolutions` section to you package.json but probably updating your yarn.lock is a better approach.
+
 This bug happens when the `npm:` protocol is used to alias a dependency in package.json and the Yarn PnP install mode is used.
 
 To see the bug:
