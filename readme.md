@@ -1,3 +1,9 @@
+**This is a branch demonstrating how the same eslint config and packages used in the `monorepo-typescript` will work when it isn't in a monorepo**
+
+The full text of the readme from the `monorepo-typescript` branch is below for reference.
+
+------
+
 Repository showing a bug in the eslint import-x plugin.
 
 This bug happens when the typescript recommended configuration is used in a workspace of a monorepo and the Yarn PnP install mode is used.

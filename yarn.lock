@@ -2009,15 +2009,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"root-workspace-0b6124@workspace:.":
-  version: 0.0.0-use.local
-  resolution: "root-workspace-0b6124@workspace:."
-  dependencies:
-    eslint: "npm:^9.28.0"
-    typescript: "npm:^5.8.3"
-  languageName: unknown
-  linkType: soft
-
 "run-parallel@npm:^1.1.9":
   version: 1.2.0
   resolution: "run-parallel@npm:1.2.0"
@@ -2187,9 +2178,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"test-eslint@workspace:demo":
+"test-eslint@workspace:.":
   version: 0.0.0-use.local
-  resolution: "test-eslint@workspace:demo"
+  resolution: "test-eslint@workspace:."
   dependencies:
     "@eslint/js": "npm:^9.28.0"
     "@types/node": "npm:^22.15.30"
