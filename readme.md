@@ -1,25 +1,36 @@
 Repository showing a bug in the eslint import-x plugin.
 
-**This issue is fixed** It was fixed by `unrs-resolver@1.7.12` if you have an existing project with a yarn.lock file you can upgrade the version of unrs-resolver used by eslint-plugin-import-x by running `yarn up -R unrs-resolver`. You can also add a `resolutions` section to you package.json but probably updating your yarn.lock is a better approach.
-
-This bug happens when the `npm:` protocol is used to alias a dependency in package.json and the Yarn PnP install mode is used.
+This bug happens when the typescript recommended configuration is used in a workspace of a monorepo and the Yarn PnP install mode is used.
 
 To see the bug:
 - install dependencies: `yarn install`
+- go into demo workspace: `cd demo`
 - run eslint: `yarn lint`
 
 This results in:
 ```
-thread '<unnamed>' panicked at /Users/runner/work/unrs-resolver/unrs-resolver/src/lib.rs:930:80:
-called `Option::unwrap()` on a `None` value
-note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+EslintPluginImportResolveError: typescript with invalid interface loaded as resolver
+Occurred while linting /Users/scytacki/Development/test-eslint/demo/test.ts:1
+Rule: "import-x/namespace"
+    at requireResolver (file:///Users/scytacki/Development/test-eslint/.yarn/__virtual__/eslint-plugin-import-x-virtual-54f4e9d264/3/.yarn/berry/cache/eslint-plugin-import-x-npm-4.15.1-14cf13eac8-10c0.zip/node_modules/eslint-plugin-import-x/lib/utils/legacy-resolver-settings.js:100:21)
+    at normalizeConfigResolvers (file:///Users/scytacki/Development/test-eslint/.yarn/__virtual__/eslint-plugin-import-x-virtual-54f4e9d264/3/.yarn/berry/cache/eslint-plugin-import-x-npm-4.15.1-14cf13eac8-10c0.zip/node_modules/eslint-plugin-import-x/lib/utils/legacy-resolver-settings.js:50:38)
+    at fullResolve (file:///Users/scytacki/Development/test-eslint/.yarn/__virtual__/eslint-plugin-import-x-virtual-54f4e9d264/3/.yarn/berry/cache/eslint-plugin-import-x-npm-4.15.1-14cf13eac8-10c0.zip/node_modules/eslint-plugin-import-x/lib/utils/resolve.js:181:59)
+    at relative (file:///Users/scytacki/Development/test-eslint/.yarn/__virtual__/eslint-plugin-import-x-virtual-54f4e9d264/3/.yarn/berry/cache/eslint-plugin-import-x-npm-4.15.1-14cf13eac8-10c0.zip/node_modules/eslint-plugin-import-x/lib/utils/resolve.js:207:12)
+    at remotePath (file:///Users/scytacki/Development/test-eslint/.yarn/__virtual__/eslint-plugin-import-x-virtual-54f4e9d264/3/.yarn/berry/cache/eslint-plugin-import-x-npm-4.15.1-14cf13eac8-10c0.zip/node_modules/eslint-plugin-import-x/lib/utils/export-map.js:157:20)
+    at captureDependency (file:///Users/scytacki/Development/test-eslint/.yarn/__virtual__/eslint-plugin-import-x-virtual-54f4e9d264/3/.yarn/berry/cache/eslint-plugin-import-x-npm-4.15.1-14cf13eac8-10c0.zip/node_modules/eslint-plugin-import-x/lib/utils/export-map.js:258:23)
+    at captureDependencyWithSpecifiers (file:///Users/scytacki/Development/test-eslint/.yarn/__virtual__/eslint-plugin-import-x-virtual-54f4e9d264/3/.yarn/berry/cache/eslint-plugin-import-x-npm-4.15.1-14cf13eac8-10c0.zip/node_modules/eslint-plugin-import-x/lib/utils/export-map.js:252:13)
+    at ExportMap.parse (file:///Users/scytacki/Development/test-eslint/.yarn/__virtual__/eslint-plugin-import-x-virtual-54f4e9d264/3/.yarn/berry/cache/eslint-plugin-import-x-npm-4.15.1-14cf13eac8-10c0.zip/node_modules/eslint-plugin-import-x/lib/utils/export-map.js:304:17)
+    at ExportMap.for (file:///Users/scytacki/Development/test-eslint/.yarn/__virtual__/eslint-plugin-import-x-virtual-54f4e9d264/3/.yarn/berry/cache/eslint-plugin-import-x-npm-4.15.1-14cf13eac8-10c0.zip/node_modules/eslint-plugin-import-x/lib/utils/export-map.js:75:31)
+    at ExportMap.get (file:///Users/scytacki/Development/test-eslint/.yarn/__virtual__/eslint-plugin-import-x-virtual-54f4e9d264/3/.yarn/berry/cache/eslint-plugin-import-x-npm-4.15.1-14cf13eac8-10c0.zip/node_modules/eslint-plugin-import-x/lib/utils/export-map.js:92:29)
 ```
 
 To verify that the code being linted actually runs:
-- `yarn demo` or `yarn node test.mjs hello`
+- `yarn demo` (inside of the demo folder)
 
-Notes:
-- `pnpm` and `node-modules` install modes do not have this problem
-- in this case the use of the `npm:` approach is pointless, in practice we use it so we can replace a dependency with a customized version without updating all of the references to it in the codebase.
+This same configuration works when it is isn't in a monorepo workspace. To test that:
+- add the `packageManager` and `devEngines` properties from `package.json` to `demo/package.json`
+- copy this modified `demo/package.json` to the top level
+- replace `eslint.config.mjs` with `demo/eslint.config.mjs`
+- copy `demo/test.ts` to `test.ts`
 
 

@@ -3,5 +3,10 @@
 !.yarn/patches
 !.yarn/plugins
 !.yarn/releases
-!.yarn/sdks
+# Normally would commit sdks, but we want keep this demo repo clean
+# you need to run `yarn dlx @yarnpkg/sdks vscode` to generate them
+# !.yarn/sdks
 !.yarn/versions
+
+# Normally would commit .vscode, but we want keep this demo repo clean
+.vscode/*

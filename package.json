@@ -1,24 +1,16 @@
 {
-  "name": "test-eslint",
-  "version": "1.0.0",
-  "description": "A test project for ESLint configuration",
+  "private": true,
   "packageManager": "yarn@4.9.2",
   "devEngines": {
     "packageManager": {
       "name": "yarn"
     }
   },
-  "scripts": {
-    "lint": "eslint",
-    "demo": "node test.mjs hello world"
-  },
+  "workspaces": [
+    "demo"
+  ],
   "devDependencies": {
-    "@eslint/js": "^9.28.0",
     "eslint": "^9.28.0",
-    "eslint-plugin-import-x": "^4.15.1",
-    "globals": "^16.2.0"
-  },
-  "dependencies": {
-    "custom-minimist": "npm:minimist@^1.2.8"
+    "typescript": "^5.8.3"
   }
 }
